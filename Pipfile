@@ -8,6 +8,7 @@ kaggle = "*"
 tensorflow = "*"
 keras = "*"
 numpy = "*"
+scikit-learn = "*"
 
 [dev-packages]
 
