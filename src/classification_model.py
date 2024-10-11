@@ -12,16 +12,16 @@ if __name__ == "__main__":
         labels="inferred",
         color_mode="rgb",
         shuffle=True,
-        image_size=(256, 256),
+        image_size=(64, 64),
         interpolation="bicubic",  # for sharper images
         crop_to_aspect_ratio=True,
         verbose=True,
     )
     val_split = 0.2
-    train_size = int((1 - val_split) * len(training_dataset))
+    train_size = int((1 - val_split) * len(training_dataset)) * 32
 
-    train_dataset = training_dataset.skip(train_size)
-    val_dataset = training_dataset.take(train_size)
+    train_dataset = training_dataset.take(train_size)
+    val_dataset = training_dataset.skip(train_size)
     # all_labels = []
     #
     # for images, labels in training_dataset:
@@ -33,22 +33,21 @@ if __name__ == "__main__":
     # print(label_counts)
 
     model = Sequential([
-        Conv2D(12, (3, 3), activation='relu', input_shape=(256, 256, 3)),  # Increased filters
+        Conv2D(16, (3, 3), activation='relu', input_shape=(256, 256, 3)),  # Start with more filters
         MaxPooling2D(),
         BatchNormalization(),
 
-        Conv2D(32, (3, 3), activation='relu'),
+        Conv2D(32, (3, 3), activation='relu'),  # Increase filter size
         MaxPooling2D(),
         BatchNormalization(),
 
-        Conv2D(64, (3, 3), activation='relu'),  # Added more filters
+        Conv2D(64, (3, 3), activation='relu'),  # Further increase filters
         MaxPooling2D(),
         BatchNormalization(),
 
         GlobalAveragePooling2D(),
-
-        Dense(128, activation='relu'),  # Increased size of dense layer
-        Dropout(0.2),  # Increased dropout for regularization
+        Dense(64, activation='relu'),  # Larger dense layer
+        Dropout(0.1),
         Dense(1, activation='sigmoid')
     ])
 
@@ -56,10 +55,9 @@ if __name__ == "__main__":
 
     model.fit(
         train_dataset,
-        epochs=10,
+        epochs=20,
         validation_data=val_dataset,
-        verbose=1,
-        batch_size=32
+        verbose=1
     )
 
 
