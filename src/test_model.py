@@ -9,7 +9,7 @@ test_dataset = utils.image_dataset_from_directory(
         color_mode="rgb",
         labels=None,
         shuffle=True,
-        image_size=(64, 64),
+        image_size=(128, 128),
         interpolation="bicubic",  # for sharper images
         crop_to_aspect_ratio=True,
         verbose=True,
@@ -26,8 +26,10 @@ threshold = 0.5
 for i, pred in enumerate(predictions):
     predicted_class = "dog" if pred[0] >= threshold else "cat"
     print(f'Image {i + 1}: Predicted class: {predicted_class}, Probability: {pred[0]}')
-plt.hist(predictions, bins=50)
-plt.title('Distribution of Prediction Probabilities')
-plt.xlabel('Probability')
-plt.ylabel('Frequency')
-plt.show()
+# plt.hist(predictions, bins=50)
+# plt.title('Distribution of Prediction Probabilities')
+# plt.xlabel('Probability')
+# plt.ylabel('Frequency')
+# plt.show()
+
+# TODO write output to CSV

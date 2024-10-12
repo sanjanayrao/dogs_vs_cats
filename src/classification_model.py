@@ -12,7 +12,7 @@ if __name__ == "__main__":
         labels="inferred",
         color_mode="rgb",
         shuffle=True,
-        image_size=(64, 64),
+        image_size=(128, 128),
         interpolation="bicubic",  # for sharper images
         crop_to_aspect_ratio=True,
         verbose=True,
@@ -33,21 +33,21 @@ if __name__ == "__main__":
     # print(label_counts)
 
     model = Sequential([
-        Conv2D(16, (3, 3), activation='relu', input_shape=(256, 256, 3)),  # Start with more filters
+        Conv2D(32, (3, 3), activation='relu', input_shape=(256, 256, 3)),  # Start with more filters
         MaxPooling2D(),
         BatchNormalization(),
 
-        Conv2D(32, (3, 3), activation='relu'),  # Increase filter size
+        Conv2D(64, (3, 3), activation='relu'),  # Increase filter size
         MaxPooling2D(),
         BatchNormalization(),
 
-        Conv2D(64, (3, 3), activation='relu'),  # Further increase filters
+        Conv2D(128, (3, 3), activation='relu'),  # Further increase filters
         MaxPooling2D(),
         BatchNormalization(),
 
         GlobalAveragePooling2D(),
-        Dense(64, activation='relu'),  # Larger dense layer
-        Dropout(0.1),
+        Dense(256, activation='relu'),  # Larger dense layer
+        Dropout(0.2),
         Dense(1, activation='sigmoid')
     ])
 
@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     model.fit(
         train_dataset,
-        epochs=20,
+        epochs=10,
         validation_data=val_dataset,
         verbose=1
     )
